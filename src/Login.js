@@ -70,7 +70,7 @@ function Login() {
               Login
             </button>
           </form>
-          {localStorage.getItem('mağket') !== 'ymakarim@gmail.com' && false (
+          {localStorage.getItem('mağket') !== 'ymakarim@gmail.com' && false && (
             <p>
               Don't have and account? <br />
               <Link className='link' to='/register'>

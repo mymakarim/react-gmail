@@ -1,18 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Profile from './Profile'
 import Register from './Register'
-import Counter from './counter'
-import Complete from './complete'
-import Yahya from './yahya'
+import Message from './Message'
+import Profile from './Profile'
 import Logout from './Logout'
-import List from './List'
+import Inbox from './Inbox'
 import VerifyEmail from './VerifyEmail'
 import Login from './Login'
 import { useState, useEffect } from 'react'
 import { AuthProvider } from './AuthContext'
 import { auth } from './firebase'
 import { onAuthStateChanged } from 'firebase/auth'
-import PrivateRoute from './PrivateRoute'
 import { Navigate } from 'react-router-dom'
 
 function App() {
@@ -29,19 +26,7 @@ function App() {
     <Router>
       <AuthProvider value={{ currentUser, timeActive, setTimeActive }}>
         <Routes>
-          <Route
-            exact
-            path='/'
-            element={
-              !currentUser?.emailVerified ? (
-                <Login />
-              ) : (
-                <PrivateRoute>
-                  <Profile />
-                </PrivateRoute>
-              )
-            }
-          />
+          <Route exact path='/' element={!currentUser?.emailVerified ? <Login /> : <Profile />} />
           <Route
             path='/login'
             element={!currentUser?.emailVerified ? <Login /> : <Navigate to='/' replace />}
@@ -51,51 +36,9 @@ function App() {
             element={!currentUser?.emailVerified ? <Register /> : <Navigate to='/' replace />}
           />
           <Route path='/verify-email' element={<VerifyEmail />} />
-          <Route
-            exact
-            path='/list'
-            element={
-              <PrivateRoute>
-                <List />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            exact
-            path='/yahya'
-            element={
-              <PrivateRoute>
-                <Yahya />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            exact
-            path='/complete'
-            element={
-              <PrivateRoute>
-                <Complete />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            exact
-            path='/counter'
-            element={
-              <PrivateRoute>
-                <Counter />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            exact
-            path='/logout'
-            element={
-              <PrivateRoute>
-                <Logout />
-              </PrivateRoute>
-            }
-          />
+          <Route path='/inbox' element={<Inbox />} />
+          <Route exact path='/message/:id' element={<Message />} />
+          <Route exact path='/logout' element={<Logout />} />
         </Routes>
         {
           <center className='text-center font-mplus'>
